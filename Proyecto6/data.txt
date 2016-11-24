@@ -1,0 +1,84 @@
+5
+s
+Soleado
+Nublado
+i
+23
+s
+Humedo
+Seco
+s
+Viento fuerte
+Viento debil
+b
+14
+Soleado
+25
+Humedo
+Viento debil
+False
+Soleado
+27
+Humedo
+Viento fuerte
+False
+Nublado
+29
+Humedo
+Viento debil
+True
+Nublado
+21
+Humedo
+Viento debil
+True
+Nublado
+18
+Seco
+Viento debil
+True
+Nublado
+19
+Seco
+Viento fuerte
+False
+Nublado
+22
+Seco
+Viento fuerte
+True
+Soleado
+20
+Humedo
+Viento debil
+False
+Soleado
+23
+Seco
+Viento debil
+True
+Nublado
+17
+Seco
+Viento debil
+True
+Soleado
+18
+Seco
+Viento fuerte
+True
+Nublado
+21
+Humedo
+Viento fuerte
+True
+Nublado
+25
+Seco
+Viento debil
+True
+Nublado
+20
+Humedo
+Viento fuerte
+False
