@@ -66,24 +66,18 @@ class Station:
         Calcula la varianza.
         :return float:
         """
-        number_intervals = len(values)
-
-        total_times = []
-        for i in range(number_intervals):       # Concatenamos todos los dias
-            for times in values[i]:
-                total_times.append(times)       # para su posterior analisis.
-
-        number_elements = len(total_times)   # Numero de elementos.
+        number_values = len(values)
         total_average = self.__average(values)
 
         numerator = 0
-        for time in total_times:                        # Calculo del
-            numerator += (time - total_average) ** 2    # numerador.
+        for value in values:                             # Calculo del
+            numerator += (value - total_average) ** 2    # numerador.
 
-        return round(float(numerator / (number_elements - 1)), 2)      # varianza
+        return round(float(numerator / (number_values - 1)), 2)      # varianza
 
-    def typical_deviation(self, parameter, month):
-        return self.__variance(parameter, month)
+    def typical_deviation(self, parameter, year_month):
+        values = map(float, self.get_data()[parameter][year_month])
+        return self.__variance(values)
 
     @staticmethod
     def __average(values):
@@ -98,6 +92,25 @@ class Station:
         values = map(float, self.get_data()[parameter][year_month])
         return self.__average(values)
 
+    def __worst_days(self, parameter, legal_limit):
+        worst_days = {}
+        for year_month in sorted(self.get_data()[parameter]):
+            day = 1
+            worst_days[year_month] = []
+            for value_per_day in map(float, self.get_data()[parameter][year_month]):
+                if value_per_day >= legal_limit:
+                    worst_days[year_month] += [[day, value_per_day]]
+                day += 1
+            if [] in worst_days[year_month]:
+                worst_days.pop(year_month)
+        return worst_days
+
+    def warning_days(self, legal_limits):
+        parameters = {}
+        for parameter in sorted(self.get_data()):
+            parameters[parameter] = self.__worst_days(self.get_data()[parameter], map(float, legal_limits[parameter]))
+        return parameters
+
     def __add_parameter(self, parameter):
         self.get_data()[parameter] = {}
 
@@ -107,6 +120,13 @@ class Station:
 
         date = raw_data[14:18]
         data = raw_data[18:]
+
+        """def format(string):
+            print 'hola'"""
+
+        data = map(''.join, zip(*[iter(data)] * 6))
+        print data
+        exit()
 
         appear_null_data = data.find('N')
         while appear_null_data != -1:
@@ -145,7 +165,7 @@ class DataBase:
         self.__manager = manager
         self.__data = {}      # TODO comment
         self.__stations = ['28079004', '28079038', '28079040']       # TODO comment
-        self.__parameters = ['06', '08', '10', '14']
+        self.__parameters = {'06': '10', '08': '200', '10': '50', '14': '110'}
         for station in self.__stations:
             self.__data[station] = Station()
 
